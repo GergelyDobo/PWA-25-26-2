@@ -1,0 +1,17 @@
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <img mat-card-avatar [src]="building.imageUrl" class="example-header-image">
+    <mat-card-title>{{building.name}}</mat-card-title>
+    <mat-card-subtitle>Amount purchased: {{building.amountPurchased}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="building.imageUrl" alt="Photo of a building">
+  <mat-card-content>
+    <p>
+     {{building.description}}
+    </p>
+    <p>Income: {{building.income | moneyFormatPipe}} / s</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="mgmtService.buyBuilding(building.id)" mat-flat-button>Buy {{building.price | moneyFormatPipe}}</button>
+  </mat-card-actions>
+</mat-card>
