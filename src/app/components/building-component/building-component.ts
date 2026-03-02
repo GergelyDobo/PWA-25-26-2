@@ -9,8 +9,8 @@ export interface Building {
   name: string;
   price: number;
   amountPurchased: number;
-  imageUrl: string;
-  description: string;
+  imageUrl?: string;
+  description?: string;
   income: number;
 }
 

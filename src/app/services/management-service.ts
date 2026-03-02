@@ -1,12 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Building } from '../components/building-component/building-component';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ManagementService {
 
-  private money = signal(0);
+  private readonly money = signal(0);
+  private readonly router: Router = inject(Router);
+
   private incomePerSec: number = 0;
 
   private readonly buildings: Building[] = [
@@ -50,16 +53,25 @@ export class ManagementService {
 
   public buyBuilding(buildingId: number) {
     const building = this.buildings[buildingId];
-    if(!Boolean(building)) {
+    if (!building) {
       alert('Building does not exist!');
       return;
     }
-    if(this.money() < building.price) {
+    if (this.money() < building.price) {
       alert('Error: You do not have enough money');
       return;
     }
     this.buildings[buildingId].amountPurchased += 1;
     this.incomePerSec += building.income;
     this.money.update((oldValue) => oldValue - building.price);
+  }
+
+  public createBuilding(building: Partial<Building>): void {
+    this.buildings.push({
+      ...building,
+      id: this.buildings.length,
+      amountPurchased: 0,
+    } as Building);
+    this.router.navigateByUrl('/home');
   }
 }

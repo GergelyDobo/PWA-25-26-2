@@ -1,0 +1,11 @@
+<p appHighlightDirective>{{managementService.getMoney() | moneyFormatPipe}}</p>
+<app-money-button-component [money]="managementService.getMoney()" ></app-money-button-component>
+<div class="container">
+  @for (b of managementService.getBuildings(); track $index) {
+    <app-building-component [building]="b"></app-building-component>
+  }
+  <button matFab extended routerLink="/creation">
+    <mat-icon>add</mat-icon>  
+    Create a new building!
+  </button>
+</div>

@@ -1,0 +1,39 @@
+<div class="form-container">
+  <form [formGroup] = "buildingForm">
+    <mat-form-field>
+      <mat-label>Building name</mat-label>
+      <input type="text" formControlName="name" matInput />
+      @if (this.nameControl.invalid) {
+        <mat-error>Name is a mandatory field!</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field floatLabel="always">
+      <mat-label>Income</mat-label>
+      <input matInput type="number" formControlName="income" class="example-right-align" placeholder="0" />
+      <span matTextPrefix>$&nbsp;</span>
+      @if (this.incomeControl.invalid) {
+        <mat-error>Income is a mandatory field, and must be between 1 and 500.</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field floatLabel="always">
+      <mat-label>Price</mat-label>
+      <input formControlName="price" matInput type="number" class="example-right-align" placeholder="0" />
+      <span matTextPrefix>$&nbsp;</span>
+      @if (this.priceControl.invalid) {
+        <mat-error>Price is a mandatory field and must be at least 15.</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea formControlName="description" matInput></textarea>
+      @if (this.descControl.invalid) {
+        <mat-error>Description is a required field!</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>ImageUrl</mat-label>
+      <input type="text" formControlName="imageUrl" matInput />
+    </mat-form-field>
+    <button (click)="onSubmit()" mat-raised-button>Create!</button>
+  </form>
+</div>

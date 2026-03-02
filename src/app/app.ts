@@ -1,16 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { MoneyFormatPipePipe } from './pipes/money-format-pipe-pipe';
-import { MoneyButtonComponent } from './components/money-button-component/money-button-component';
-import { HighlightDirective } from './directives/highlight-directive';
-import { ManagementService } from './services/management-service';
-import { BuildingComponent } from './components/building-component/building-component';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-root',
-  imports: [MoneyFormatPipePipe, MoneyButtonComponent, HighlightDirective, BuildingComponent],
+  imports: [MatButtonModule, MatIconModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly managementService : ManagementService = inject(ManagementService);
 }
