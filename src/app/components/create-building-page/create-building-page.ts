@@ -4,6 +4,7 @@ import { MatAnchor, MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ManagementService } from '../../services/management-service';
+import { SettingsService } from '../../services/settings-service';
 
 @Component({
   selector: 'app-create-building-page',
@@ -13,6 +14,7 @@ import { ManagementService } from '../../services/management-service';
 })
 export class CreateBuildingPage {
   private readonly mgmtService = inject(ManagementService);
+  protected readonly settingsService = inject(SettingsService);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
   readonly nameControl = new FormControl('', { validators: [Validators.required], nonNullable: true });

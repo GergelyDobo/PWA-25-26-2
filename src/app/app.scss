@@ -1,0 +1,18 @@
+mat-toolbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+
+mat-drawer-container{
+    background-color: #ececec;
+    height: calc(100% - 64px);
+    color: unset;
+}
+
+.list-item {
+    cursor: pointer !important;
+    &:hover {
+        background-color: #dcdcdc;
+    }
+}

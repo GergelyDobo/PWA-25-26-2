@@ -12,6 +12,10 @@ export const routes: Routes = [
     canActivate: [canCreateGuard]
   },
   {
+    path: 'settings',
+    loadComponent: () => import('./components/settings/settings').then(c => c.Settings),
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }

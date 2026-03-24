@@ -10,7 +10,7 @@
     <mat-form-field floatLabel="always">
       <mat-label>Income</mat-label>
       <input matInput type="number" formControlName="income" class="example-right-align" placeholder="0" />
-      <span matTextPrefix>$&nbsp;</span>
+      <span matTextPrefix>{{ settingsService.selectedCurrencyCode }} </span>
       @if (this.incomeControl.invalid) {
         <mat-error>Income is a mandatory field, and must be between 1 and 500.</mat-error>
       }
@@ -18,7 +18,7 @@
     <mat-form-field floatLabel="always">
       <mat-label>Price</mat-label>
       <input formControlName="price" matInput type="number" class="example-right-align" placeholder="0" />
-      <span matTextPrefix>$&nbsp;</span>
+      <span matTextPrefix>{{ settingsService.selectedCurrencyCode }} </span>
       @if (this.priceControl.invalid) {
         <mat-error>Price is a mandatory field and must be at least 15.</mat-error>
       }

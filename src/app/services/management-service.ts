@@ -74,4 +74,12 @@ export class ManagementService {
     } as Building);
     this.router.navigateByUrl('/home');
   }
+
+  public deleteBuilding(building: Building) {
+    const index = this.buildings.findIndex((b) => b.name === building.name);
+    if(index !== -1){
+      this.buildings[index].amountPurchased--;
+      this.incomePerSec -= building.income;    
+    }
+  }
 }
