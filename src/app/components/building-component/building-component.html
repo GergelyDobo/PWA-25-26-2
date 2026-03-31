@@ -12,7 +12,8 @@
     <p>Income: {{building.income | moneyFormatPipe}} / s</p>
   </mat-card-content>
   <mat-card-actions>
-    <button (click)="mgmtService.buyBuilding(building.id)" mat-flat-button>Buy {{building.price | moneyFormatPipe}}</button>
-    <button mat-icon-button [disabled]="building.amountPurchased < 1" (click)="onDelete()"><mat-icon>close</mat-icon></button>
+    <button (click)="mgmtService.buyBuilding(building)" mat-flat-button>Buy {{building.price | moneyFormatPipe}}</button>
+    <button mat-icon-button [disabled]="building.amountPurchased < 1" (click)="decreaseAmount()"><mat-icon>remove</mat-icon></button>
+    <button mat-icon-button (click)="removeBuilding()"><mat-icon>delete</mat-icon></button>
   </mat-card-actions>
 </mat-card>

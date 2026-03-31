@@ -26,7 +26,11 @@ export class BuildingComponent {
 
   protected readonly mgmtService: ManagementService = inject(ManagementService);
   
-  onDelete(){
-    this.mgmtService.deleteBuilding(this.building);
+  decreaseAmount(){
+    this.mgmtService.changeAmount(this.building, 'decrease');
+  }
+
+  removeBuilding(){
+    this.mgmtService.removeBuilding(this.building);
   }
 }
