@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +9,7 @@ import { interval } from 'rxjs';
 import { HighlightDirective } from '../../directives/highlight-directive';
 import { MoneyFormatPipe } from '../../pipes/money-format-pipe';
 import { ManagementService } from '../../services/management-service';
+import { BoxComponent } from '../box/box.component';
 import { BuildingComponent } from '../building-component/building-component';
 import { MoneyButtonComponent } from '../money-button-component/money-button-component';
 
@@ -21,17 +23,21 @@ import { MoneyButtonComponent } from '../money-button-component/money-button-com
     MatButtonModule,
     MatIconModule,
     RouterLink,
+    BoxComponent,
+    AsyncPipe
   ],
   templateUrl: './main-component.html',
   styleUrl: './main-component.scss',
 })
 export class MainComponent {
-  protected readonly managementService: ManagementService = inject(ManagementService);
+  protected readonly managementService = inject(ManagementService);
   protected readonly swUpdate = inject(SwUpdate);
   protected readonly swPush = inject(SwPush);
   protected readonly destroyRef = inject(DestroyRef);
   protected readonly router = inject(Router);
 
+  protected box$ = this.managementService.box$;
+  protected boxPrice = this.managementService.boxPrice;
 
   constructor() {
     /**
@@ -80,5 +86,15 @@ export class MainComponent {
       window.removeEventListener("offline", offlineListener);
       window.removeEventListener("online", onlineListener);
     })
+
+
+  }
+
+  protected buyBox():void{
+    this.managementService.buyBox();
+  }
+
+  protected sellBox(price: number):void{
+    this.managementService.sellBox(price);
   }
 }

@@ -1,6 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Building } from '../components/building-component/building-component';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { Box } from '../components/box/box';
+import { Building } from '../components/building-component/building-component';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,9 @@ export class ManagementService {
   private readonly money = signal(0);
   private readonly router: Router = inject(Router);
   private incomePerSec: number = 0;
+
+  public boxPrice: number = 5;
+  public box$: Observable<Box | undefined> = of(undefined);
 
   /*
     {
@@ -41,6 +46,15 @@ export class ManagementService {
     setInterval(() => {
       this.money.update((oldValue) => oldValue + this.incomePerSec);
     }, 1000);
+  }
+
+
+    public buyBox(): void{
+    // TODO
+  }
+
+  public sellBox(price:number):void{
+    // TODO
   }
 
   private initIndexedDB(): void {

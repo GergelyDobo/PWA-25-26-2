@@ -1,11 +1,23 @@
-<p appHighlightDirective>{{managementService.getMoney() | moneyFormat}}</p>
-<app-money-button-component [money]="managementService.getMoney()" ></app-money-button-component>
+<p appHighlightDirective>{{ managementService.getMoney() | moneyFormat }}</p>
+<app-money-button-component [money]="managementService.getMoney()"></app-money-button-component>
 <div class="container">
-  @for (b of managementService.getBuildings(); track $index) {
-    <app-building-component [building]="b"></app-building-component>
-  }
+  <div class="buildings-container">
+    @for (b of managementService.getBuildings(); track $index) {
+      <app-building-component [building]="b"></app-building-component>
+    }
+  </div>
+  <div class="box-container">
+    @if (box$ | async; as box) {
+      <app-box [box]="box" (sellBox)="sellBox(box.price)"></app-box>
+    }
+  </div>
+</div>
+<div class="actions-container">
   <button matFab extended routerLink="/creation">
     <mat-icon>add</mat-icon>
     Create a new building!
+  </button>
+  <button matFab extended color="accent" (click)="buyBox()">
+    Buy mystery box ({{ boxPrice | moneyFormat }})
   </button>
 </div>
