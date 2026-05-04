@@ -9,10 +9,10 @@
     <p>
      {{building.description}}
     </p>
-    <p>Income: {{building.income | moneyFormatPipe}} / s</p>
+    <p>Income: {{building.income | moneyFormat}} / s</p>
   </mat-card-content>
   <mat-card-actions>
-    <button (click)="mgmtService.buyBuilding(building)" mat-flat-button>Buy {{building.price | moneyFormatPipe}}</button>
+    <button (click)="mgmtService.buyBuilding(building)" mat-flat-button>Buy {{building.price | moneyFormat}}</button>
     <button mat-icon-button [disabled]="building.amountPurchased < 1" (click)="decreaseAmount()"><mat-icon>remove</mat-icon></button>
     <button mat-icon-button (click)="removeBuilding()"><mat-icon>delete</mat-icon></button>
   </mat-card-actions>

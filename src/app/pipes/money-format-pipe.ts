@@ -2,9 +2,9 @@ import { inject, Pipe, PipeTransform } from '@angular/core';
 import { SettingsService } from '../services/settings-service';
 
 @Pipe({
-  name: 'moneyFormatPipe',
+  name: 'moneyFormat',
 })
-export class MoneyFormatPipePipe implements PipeTransform {
+export class MoneyFormatPipe implements PipeTransform {
   private settingsService = inject(SettingsService);
   transform(value: number): string {
     return value + ' ' + this.settingsService.selectedCurrencyCode;

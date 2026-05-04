@@ -6,7 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { interval } from 'rxjs';
 import { HighlightDirective } from '../../directives/highlight-directive';
-import { MoneyFormatPipePipe } from '../../pipes/money-format-pipe-pipe';
+import { MoneyFormatPipe } from '../../pipes/money-format-pipe';
 import { ManagementService } from '../../services/management-service';
 import { BuildingComponent } from '../building-component/building-component';
 import { MoneyButtonComponent } from '../money-button-component/money-button-component';
@@ -14,7 +14,7 @@ import { MoneyButtonComponent } from '../money-button-component/money-button-com
 @Component({
   selector: 'app-main-component',
   imports: [
-    MoneyFormatPipePipe,
+    MoneyFormatPipe,
     MoneyButtonComponent,
     HighlightDirective,
     BuildingComponent,
