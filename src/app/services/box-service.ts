@@ -1,8 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { map, Observable, shareReplay, switchMap, take } from "rxjs";
+import { BehaviorSubject, map, Observable, shareReplay, take, tap } from "rxjs";
 import { Box } from "../components/box/box";
-import { BoxFireStoreService } from "./box-fire-store-service";
 import { ManagementService } from "./management-service";
 
 @Injectable({
@@ -10,11 +9,12 @@ import { ManagementService } from "./management-service";
 })
 export class BoxService {
   private readonly http  = inject(HttpClient);
-  private readonly boxFireStoreService  = inject(BoxFireStoreService);
+  //private readonly boxFireStoreService  = inject(BoxFireStoreService);
   private readonly managementService  = inject(ManagementService);
 
   public boxPrice: number = 5;
   private boxes$: Observable<Box[]>;
+  private boxesSubject$ = new BehaviorSubject<Box[]>([]);
   public selectedBoxes$: Observable<Box[]>;
 
   /** HttpClient segít abban, hogy egyszerűen tudjuk lekérdezéseket indítani egy adott API felé, fontos provide-olni a provideHttpClient()-ot hozzá */
@@ -29,7 +29,8 @@ export class BoxService {
       // Ennek használatával megosztjuk (cacheelve lesz) és visszajátszuk a response értékét, így csak 1x fog a request kimenni
       shareReplay(1) // Meogsztjuk + visszajátszatjuk a korábbi (1) emission értékét, a korai felírazkozás miatt
     );
-    this.selectedBoxes$ = this.boxFireStoreService.getAllSelectedBoxes();
+    //this.selectedBoxes$ = this.boxFireStoreService.getAllSelectedBoxes();
+    this.selectedBoxes$ =  this.boxesSubject$.asObservable();
   }
 
   public buyBox(): void {
@@ -39,7 +40,9 @@ export class BoxService {
         const index = Math.floor(Math.random() * boxes.length);
         return boxes[index];
       }),
-      switchMap((box) => this.boxFireStoreService.saveBox(box)),
+      //switchMap((box) => this.boxFireStoreService.saveBox(box)),
+      //switchMap(box => this.boxFireStoreService.saveBox(box)),
+      tap(box => this.boxesSubject$.next([...this.boxesSubject$.getValue(), box])),
       take(1)
 
     ).subscribe();
@@ -48,7 +51,9 @@ export class BoxService {
   }
 
   public sellBox(price:number, id: string): void {
-    this.boxFireStoreService.removeBox(id).pipe(take(1)).subscribe();
+    //this.boxFireStoreService.removeBox(id).pipe(take(1)).subscribe();
+    const newBoxes = this.boxesSubject$.getValue().filter(box => box.id !== id);
+    this.boxesSubject$.next(newBoxes);
     this.managementService.addMoney(price);
   }
 }
