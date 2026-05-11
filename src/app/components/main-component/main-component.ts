@@ -38,7 +38,7 @@ export class MainComponent {
   protected readonly destroyRef = inject(DestroyRef);
   protected readonly router = inject(Router);
 
-  protected box$ = this.boxService.box$;
+  protected selectedBoxes$ = this.boxService.selectedBoxes$;
   protected boxPrice = this.boxService.boxPrice;
 
   constructor() {
@@ -96,7 +96,7 @@ export class MainComponent {
     this.boxService.buyBox();
   }
 
-  protected sellBox(price: number):void{
-    this.boxService.sellBox(price);
+  protected sellBox(price: number, id: string):void{
+    this.boxService.sellBox(price, id);
   }
 }

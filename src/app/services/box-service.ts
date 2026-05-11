@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { BehaviorSubject, map, Observable, shareReplay, take } from "rxjs";
+import { map, Observable, shareReplay, switchMap, take } from "rxjs";
 import { Box } from "../components/box/box";
 import { BoxFireStoreService } from "./box-fire-store-service";
 import { ManagementService } from "./management-service";
@@ -15,10 +15,7 @@ export class BoxService {
 
   public boxPrice: number = 5;
   private boxes$: Observable<Box[]>;
-    /** Subject, ami tárolja az aktuális Box objektumot, típusát generikusan megadhatjuk, a | operátorral tudunk union type-ot definiálni */
-  private boxSubject$ = new BehaviorSubject<Box | undefined>(undefined);
-    /** Publikus Observable, amit kifelé elérhetővé teszünk, ez módosítani már nem tudjuk a Subjecthez eltérően */
-  public box$: Observable<Box | undefined> = this.boxSubject$.asObservable();
+  public selectedBoxes$: Observable<Box[]>;
 
   /** HttpClient segít abban, hogy egyszerűen tudjuk lekérdezéseket indítani egy adott API felé, fontos provide-olni a provideHttpClient()-ot hozzá */
   constructor(
@@ -32,6 +29,7 @@ export class BoxService {
       // Ennek használatával megosztjuk (cacheelve lesz) és visszajátszuk a response értékét, így csak 1x fog a request kimenni
       shareReplay(1) // Meogsztjuk + visszajátszatjuk a korábbi (1) emission értékét, a korai felírazkozás miatt
     );
+    this.selectedBoxes$ = this.boxFireStoreService.getAllSelectedBoxes();
   }
 
   public buyBox(): void {
@@ -41,16 +39,16 @@ export class BoxService {
         const index = Math.floor(Math.random() * boxes.length);
         return boxes[index];
       }),
-      take(1) // Segítségével az adatfolyamból 1 elemet veszünk ki, ezzel véget ér az adatfolyam (complete)
-      // a példa kedvéért illetve, hogy gyakoroljuk a subjecteket itt íratkozunk fel és az adatfolyamba egy értéket adunk át
-      // FONTOS! Legtöbb esetben nincs szükség a manuális subscriptionra, a best practise, hogy a html templatebe íratkozunk fel
-    ).subscribe(product => this.boxSubject$.next(product)); // Az adat elkészültével a subjectbe mentjük
+      switchMap((box) => this.boxFireStoreService.saveBox(box)),
+      take(1)
+
+    ).subscribe();
 
     this.managementService.reduceMoney(this.boxPrice);
   }
 
-  public sellBox(price:number): void {
-    this.boxSubject$.next(undefined);
+  public sellBox(price:number, id: string): void {
+    this.boxFireStoreService.removeBox(id).pipe(take(1)).subscribe();
     this.managementService.addMoney(price);
   }
 }
