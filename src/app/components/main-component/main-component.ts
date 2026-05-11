@@ -8,6 +8,7 @@ import { SwPush, SwUpdate } from '@angular/service-worker';
 import { interval } from 'rxjs';
 import { HighlightDirective } from '../../directives/highlight-directive';
 import { MoneyFormatPipe } from '../../pipes/money-format-pipe';
+import { BoxService } from '../../services/box-service';
 import { ManagementService } from '../../services/management-service';
 import { BoxComponent } from '../box/box.component';
 import { BuildingComponent } from '../building-component/building-component';
@@ -30,14 +31,15 @@ import { MoneyButtonComponent } from '../money-button-component/money-button-com
   styleUrl: './main-component.scss',
 })
 export class MainComponent {
+  protected readonly boxService = inject(BoxService);
   protected readonly managementService = inject(ManagementService);
   protected readonly swUpdate = inject(SwUpdate);
   protected readonly swPush = inject(SwPush);
   protected readonly destroyRef = inject(DestroyRef);
   protected readonly router = inject(Router);
 
-  protected box$ = this.managementService.box$;
-  protected boxPrice = this.managementService.boxPrice;
+  protected box$ = this.boxService.box$;
+  protected boxPrice = this.boxService.boxPrice;
 
   constructor() {
     /**
@@ -91,10 +93,10 @@ export class MainComponent {
   }
 
   protected buyBox():void{
-    this.managementService.buyBox();
+    this.boxService.buyBox();
   }
 
   protected sellBox(price: number):void{
-    this.managementService.sellBox(price);
+    this.boxService.sellBox(price);
   }
 }
